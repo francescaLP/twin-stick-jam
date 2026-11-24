@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://du8gvixhytt48"]
+
+[ext_resource type="Script" uid="uid://d2gxmxb1um11x" path="res://scripts/bullet.gd" id="1_v7oki"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7oki"]
+albedo_color = Color(0.7276729, 3.0418634e-05, 0.29925123, 1)
+emission_enabled = true
+emission = Color(0.22909093, 0.061352193, 0.18317601, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_a24kc"]
+material = SubResource("StandardMaterial3D_v7oki")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y6e04"]
+
+[node name="Bullet" type="Node3D" unique_id=1301936825]
+script = ExtResource("1_v7oki")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1016285172]
+transform = Transform3D(0.3, 0, 0, 0, -1.3113417e-08, 0.3, 0, -0.3, -1.3113417e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_a24kc")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=293147745]
+light_color = Color(0.90526885, 3.272891e-06, 1.4439225e-06, 1)
+light_energy = 10.188
+omni_range = 2.696
+omni_attenuation = 5.0
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=218960128]
+target_position = Vector3(0, 0, -0.1)
+collision_mask = 2
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=1084691010]
+transform = Transform3D(0.3, 0, 0, 0, -1.3113417e-08, -0.3, 0, 0.3, -1.3113417e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_y6e04")
+target_position = Vector3(0, 0, 0)
+collision_mask = 2
+
+[node name="DeathTimer" type="Timer" parent="." unique_id=146758836]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

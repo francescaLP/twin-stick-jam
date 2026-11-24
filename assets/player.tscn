@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://n58h8gkd63fj"]
+
+[ext_resource type="Script" uid="uid://4knt6ahcl8hq" path="res://scripts/player.gd" id="1_674bt"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a24kc"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_y6e04"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_f1x3a"]
+
+[node name="Player" type="CharacterBody3D" unique_id=178651563]
+collision_mask = 6
+script = ExtResource("1_674bt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1057872019]
+shape = SubResource("CapsuleShape3D_a24kc")
+
+[node name="Pivot" type="Node3D" parent="." unique_id=1645995530]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot" unique_id=1869028223]
+mesh = SubResource("CapsuleMesh_y6e04")
+
+[node name="Gun" type="Node3D" parent="Pivot" unique_id=519509333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot/Gun" unique_id=655408177]
+transform = Transform3D(0.5, 0, 0, 0, -2.1855694e-08, 0.5, 0, -0.5, -2.1855694e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_f1x3a")

@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bhkyo2ulqe3wx"]
+
+[ext_resource type="Script" uid="uid://c8dv6iq3nudyj" path="res://scripts/Main.gd" id="1_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://dinklh40ewqa3" path="res://levels/level.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://n58h8gkd63fj" path="res://assets/player.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://baeex71jjup4b" path="res://score.gd" id="6_7mycd"]
+
+[sub_resource type="Curve3D" id="Curve3D_lquwl"]
+closed = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -7.0245585, 0, -9.087307, 0, 0, 0, 0, 0, 0, 8.053477, 0, -8.952982, 0, 0, 0, 0, 0, 0, 7.9863153, 0, 7.031751, 0, 0, 0, 0, 0, 0, -7.1588836, 0, 6.9645877),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_a24kc"]
+
+[node name="Main" type="Node3D" unique_id=1809699242]
+metadata/_edit_lock_ = true
+
+[node name="World" type="Node3D" parent="." unique_id=1535313074]
+script = ExtResource("1_1bvp3")
+metadata/_edit_lock_ = true
+
+[node name="Level" parent="World" unique_id=1201934312 instance=ExtResource("1_ig7tw")]
+metadata/_edit_lock_ = true
+
+[node name="Player" parent="World" unique_id=178651563 instance=ExtResource("2_0xm2m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Marker3D" type="Marker3D" parent="World/Player" unique_id=218888559]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="World/Player/Marker3D" unique_id=1246166481]
+transform = Transform3D(1, 0, 0, 0, -2.9802322e-08, 1, 0, -1, -2.9802322e-08, 0, 9, -1.0000002)
+
+[node name="Bounds" type="Node3D" parent="World/Player/Marker3D/Camera3D" unique_id=1262632067]
+transform = Transform3D(1.9499999, 0, 0, 0, -2.9802322e-08, -2.21, 0, 1, -6.5863134e-08, 0, -1, -9)
+
+[node name="SpawnPath" type="Path3D" parent="World/Player/Marker3D/Camera3D/Bounds" unique_id=1667579142]
+curve = SubResource("Curve3D_lquwl")
+
+[node name="SpawnPos" type="PathFollow3D" parent="World/Player/Marker3D/Camera3D/Bounds/SpawnPath" unique_id=1046964084]
+transform = Transform3D(-0.008908432, 0, -0.9999599, 0, 1, 0, 0.9999599, 0, -0.008908432, -7.0245585, 0, -9.087307)
+
+[node name="Guide" type="MeshInstance3D" parent="World/Player/Marker3D/Camera3D/Bounds" unique_id=133961256]
+transform = Transform3D(1, 0, 0, 0, 0.2, 0, 0, 0, 1, -7, 0.2, -9)
+mesh = SubResource("CylinderMesh_a24kc")
+
+[node name="Guide2" type="MeshInstance3D" parent="World/Player/Marker3D/Camera3D/Bounds" unique_id=286154686]
+transform = Transform3D(1, 0, 0, 0, 0.2, 0, 0, 0, 1, -7, 0.2, 7)
+mesh = SubResource("CylinderMesh_a24kc")
+
+[node name="Guide3" type="MeshInstance3D" parent="World/Player/Marker3D/Camera3D/Bounds" unique_id=1210973939]
+transform = Transform3D(1, 0, 0, 0, 0.2, 0, 0, 0, 1, 8, 0.2, -9)
+mesh = SubResource("CylinderMesh_a24kc")
+
+[node name="Guide4" type="MeshInstance3D" parent="World/Player/Marker3D/Camera3D/Bounds" unique_id=1825878034]
+transform = Transform3D(1, 0, 0, 0, 0.2, 0, 0, 0, 1, 8, 0.2, 7)
+mesh = SubResource("CylinderMesh_a24kc")
+
+[node name="EnemySpawner" type="Timer" parent="World" unique_id=1136922438]
+wait_time = 0.5
+autostart = true
+
+[node name="GUI" type="Control" parent="." unique_id=1207119658]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Score" type="Label" parent="GUI" unique_id=1885853697]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Enemies Killed"
+script = ExtResource("6_7mycd")
+
+[connection signal="timeout" from="World/EnemySpawner" to="World" method="_on_enemy_spawner_timeout"]

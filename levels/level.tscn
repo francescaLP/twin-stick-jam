@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dinklh40ewqa3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_a24kc"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="Gradient" id="Gradient_umreq"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f1x3a"]
+gradient = SubResource("Gradient_umreq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a24kc"]
+albedo_color = Color(0.60862213, 0.88680696, 0.5309008, 1)
+albedo_texture = SubResource("GradientTexture1D_f1x3a")
+normal_enabled = true
+normal_scale = 12.25
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a24kc"]
+size = Vector3(60, 2, 60)
+
+[node name="Level" type="Node3D" unique_id=1201934312]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2049399655]
+transform = Transform3D(1, 0, 0, 0, 0.25881904, 0.9659259, 0, -0.9659259, 0.25881904, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1392932482]
+collision_layer = 4
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1415934289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_a24kc")
+surface_material_override/0 = SubResource("StandardMaterial3D_a24kc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=1924782677]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_a24kc")
